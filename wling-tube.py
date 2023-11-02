@@ -123,7 +123,6 @@ class MIAPP(MDApp):
         return Builder.load_string(interfaz)
 
     def MP3(self):
-        global mp3
         mp3 = "musica"
         self.root.ids.mp3.disabled = True
         self.root.ids.mp3.opacity = 0
@@ -132,8 +131,6 @@ class MIAPP(MDApp):
         #Clock.schedule_once(self.show_finalizado, 0)
 
     def MP4(self):
-        global mp4
-        mp4 = "video"
         self.root.ids.mp4.disabled = True
         self.root.ids.mp4.opacity = 0
         self.root.ids.mp3.disabled = False
