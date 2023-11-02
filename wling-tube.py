@@ -20,7 +20,7 @@ MDBoxLayout:
         MDIcon:
             icon: 'play-circle'
             font_size: 100
-            pos_hint: {"center_x": 0.82, "center_y": 0.9}
+            pos_hint: {"center_x": 0.84, "center_y": 0.9}
             
         MDLabel:
             text: "Wling-Tube"
@@ -66,8 +66,8 @@ MDBoxLayout:
             size_hint: 0.25, 0.065
             font_size: 30
             pos_hint: {"center_x": 0.3, "center_y": 0.35}
+            opacity: 0
             on_release: app.MP4()
-        
         MDSpinner:
             id: spinner
             size_hint: None, None
@@ -123,6 +123,8 @@ class MIAPP(MDApp):
         return Builder.load_string(interfaz)
 
     def MP3(self):
+        global mp3
+        mp3 = "musica"
         self.root.ids.mp3.disabled = True
         self.root.ids.mp3.opacity = 0
         self.root.ids.mp4.disabled = False
@@ -130,6 +132,8 @@ class MIAPP(MDApp):
         #Clock.schedule_once(self.show_finalizado, 0)
 
     def MP4(self):
+        global mp4
+        mp4 = "video"
         self.root.ids.mp4.disabled = True
         self.root.ids.mp4.opacity = 0
         self.root.ids.mp3.disabled = False
@@ -137,13 +141,23 @@ class MIAPP(MDApp):
         
     def DESCARGAR(self):
         def descargar_en_segundo_plano():
-            audio_stream = yt.streams.filter(only_audio=True).first()
-            output_path = '/storage/emulated/0/Download'
-            download_path = audio_stream.download(output_path=output_path)
-            mp3_path = download_path.replace(".mp4", ".mp3")
-            os.rename(download_path, mp3_path)
-            spinner.active = False
-            Clock.schedule_once(self.show_finalizado, 0)
+            
+            if self.root.ids.mp3.opacity == 1:
+                
+                audio_stream = yt.streams.filter(only_audio=True).first()
+                output_path = '/storage/emulated/0/Download'
+                download_path = audio_stream.download(output_path=output_path)
+                mp3_path = download_path.replace(".mp4", ".mp3")
+                os.rename(download_path, mp3_path)
+                spinner.active = False
+                Clock.schedule_once(self.show_finalizado, 0)
+            
+            elif self.root.ids.mp4.opacity == 1:
+                video_stream = yt.streams.get_highest_resolution()
+                output_path = '/storage/emulated/0/Download'
+                download_path = video_stream.download(output_path=output_path)
+                spinner.active = False
+                Clock.schedule_once(self.show_finalizado, 0)
             
         url = self.root.ids.URL.text
         try:
@@ -185,3 +199,4 @@ class MIAPP(MDApp):
 
 if __name__ == "__main__":
     MIAPP().run()
+    
