@@ -1,5 +1,5 @@
 <h1 align="center">Wling-Tube</h1>
-<p align="center">Descargador de músicas y vídeos de YouTube</p>
+<p align="center">Descargador de músicas y vídeos de YouTube.<br>(Creado en kivy)</p>
 <p align="center"><img src="20231102_010621.jpg" width="450" height="350"/></p> 
 
 
